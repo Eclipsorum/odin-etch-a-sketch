@@ -38,15 +38,17 @@ btnEraser.addEventListener('click', erase);
 
 function addGrid() {
     gridSize = prompt("Enter grid size (max 100)", 16);
-    while (gridSize != 0 && gridSize != null && gridSize != '' && !(gridSize/1)) {
+    while (gridSize != 0 && gridSize != null && gridSize != '' && !(gridSize/1) || gridSize > 100) {
         gridSize = prompt("Bad input! Enter again! (max 100)");       
     }
-    if (gridSize > 100) {
-        gridSize = 100;
+
+    if (!(gridSize == '' || gridSize == null)) {
+        const rows = document.querySelectorAll('.row');
+        rows.forEach((row) => container.removeChild(row));
+        populateGrid(gridSize);  
     }
-    const rows = document.querySelectorAll('.row');
-    rows.forEach((row) => container.removeChild(row));
-    populateGrid(gridSize);  
+    
+    
 }
 
 function populateGrid(gridSize) {
