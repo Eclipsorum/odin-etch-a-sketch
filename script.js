@@ -16,10 +16,15 @@ const btnEraser = document.createElement('button');
 btnEraser.setAttribute('id', 'eraser');
 btnEraser.textContent = "Eraser";
 
+const btnRainbow = document.createElement('button');
+btnRainbow.setAttribute('id', 'rainbow');
+btnRainbow.textContent = "Rainbow";
+
 body.insertBefore(btnContainer, container);
 btnContainer.appendChild(btnGrid);
 btnContainer.appendChild(btnClear);
 btnContainer.appendChild(btnEraser);
+btnContainer.appendChild(btnRainbow);
 
 let isClicked = false;
 window.addEventListener('mousedown', e => {
@@ -47,8 +52,6 @@ function addGrid() {
         rows.forEach((row) => container.removeChild(row));
         populateGrid(gridSize);  
     }
-    
-    
 }
 
 function populateGrid(gridSize) {
@@ -63,12 +66,11 @@ function populateGrid(gridSize) {
         row.appendChild(document.createElement('div')).classList.add(`column`); 
         row.style.height = `${600/gridSize}px`;    
     })
-    }
-    
-    sketch();
+    }  
+    sketchRainbow();
 }
 
-function sketch() {
+function sketchRainbow() {
     const columns = document.querySelectorAll('.column');
     
     function getRandomHex() {
@@ -144,7 +146,7 @@ function erase() {
     })
 }
     else {
-        sketch();
+        sketchRainbow();
     }
 }
 
