@@ -28,6 +28,10 @@ body{
     margin: 10px;
     gap: 10px;
 }
+
+.active {
+    background-color: greenyellow;
+}
 /*.column:hover{
     background-color: yellow;
 

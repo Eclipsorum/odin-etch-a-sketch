@@ -33,11 +33,8 @@ isClicked = false;
 let gridSize = 16;
 populateGrid(gridSize);
 btnGrid.addEventListener('click', addGrid);
-btnClear.addEventListener('click', () => {
-    const rows = document.querySelectorAll('.row');
-    rows.forEach((row) => container.removeChild(row));
-    populateGrid(gridSize); 
-});
+btnClear.addEventListener('click', clear);
+btnEraser.addEventListener('click', erase);
 
 function addGrid() {
     gridSize = prompt("Enter grid size (max 100)", 16);
@@ -116,5 +113,42 @@ function sketch() {
             attributeSet(column);
             isClicked = false;
         })
+    })
+}
+
+function erase() {
+    btnEraser.classList.toggle('active');
+    if (btnEraser.className) {
+    const columns = document.querySelectorAll('.column');
+
+    function setErase(column) {
+        column.setAttribute('style', `background-color: #F8F8FF`);
+    }
+
+    columns.forEach((column) => {
+        column.addEventListener('mousemove', () => {
+            if (isClicked === true) {
+            setErase(column);
+        }
+    })
+    })
+
+    columns.forEach((column) => {
+        column.addEventListener('click', () => {
+            isClicked = true;
+            setErase(column);
+            isClicked = false;
+        })
+    })
+}
+    else {
+        sketch();
+    }
+}
+
+function clear() {
+    const columns = document.querySelectorAll('.column');
+    columns.forEach((column) => {
+        column.setAttribute('style', `background-color: ghostwhite`); 
     })
 }
