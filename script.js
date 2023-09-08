@@ -12,10 +12,14 @@ const btnClear = document.createElement('button');
 btnClear.setAttribute('id', 'clear');
 btnClear.textContent = "Clear";
 
+const btnEraser = document.createElement('button');
+btnEraser.setAttribute('id', 'eraser');
+btnEraser.textContent = "Eraser";
+
 body.insertBefore(btnContainer, container);
 btnContainer.appendChild(btnGrid);
 btnContainer.appendChild(btnClear);
-
+btnContainer.appendChild(btnEraser);
 
 let isClicked = false;
 window.addEventListener('mousedown', e => {
