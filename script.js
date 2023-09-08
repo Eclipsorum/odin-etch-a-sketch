@@ -39,7 +39,6 @@ btnClear.addEventListener('click', () => {
     populateGrid(gridSize); 
 });
 
-
 function addGrid() {
     gridSize = prompt("Enter grid size (max 100)", 16);
     while (gridSize != 0 && gridSize != null && gridSize != '' && !(gridSize/1)) {
@@ -66,6 +65,11 @@ function populateGrid(gridSize) {
         row.style.height = `${600/gridSize}px`;    
     })
     }
+    
+    sketch();
+}
+
+function sketch() {
     const columns = document.querySelectorAll('.column');
     
     function getRandomHex() {
@@ -114,5 +118,3 @@ function populateGrid(gridSize) {
         })
     })
 }
-
-
