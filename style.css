@@ -12,13 +12,13 @@ body{
 .row {
     display:flex;
     justify-content: center;
-    background-color: ghostwhite;
+    background-color: #F8F8FF;
     height: 10px;
 }
 
 .column {
     flex: 1;
-    background-color: ghostwhite;
+    background-color: #F8F8FF;
 }
 
 .btn-container {

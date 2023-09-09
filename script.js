@@ -39,7 +39,15 @@ let gridSize = 16;
 populateGrid(gridSize);
 btnGrid.addEventListener('click', addGrid);
 btnClear.addEventListener('click', clear);
-btnEraser.addEventListener('click', erase);
+btnEraser.addEventListener('click', () => {
+    btnEraser.classList.toggle('active');
+    sketch(false);
+});
+btnRainbow.addEventListener('click', () => {
+    btnRainbow.classList.toggle('active');
+    sketch(false);
+});
+
 
 function addGrid() {
     gridSize = prompt("Enter grid size (max 100)", 16);
@@ -67,10 +75,10 @@ function populateGrid(gridSize) {
         row.style.height = `${600/gridSize}px`;    
     })
     }  
-    sketchRainbow();
+    sketch();
 }
 
-function sketchRainbow() {
+function sketch(addAlpha) {
     const columns = document.querySelectorAll('.column');
     
     function getRandomHex() {
@@ -84,75 +92,70 @@ function sketchRainbow() {
         return hexValue;
     }
 
-    function attributeSet(column) {
-
+    function attributeSet(column) {  
             let columnAtt = column.getAttribute('style');
-        if (columnAtt) {
-            const hexToDecimal = hex => parseInt(hex, 16);
-            let hexValue = columnAtt.slice(columnAtt.search('#')+1);    
-            let alphaValue = hexToDecimal(hexValue.slice(-2));
-            if ( alphaValue < 255) {
-                alphaValue = alphaValue + 10;
-            }
-            column.setAttribute('style', `background-color: #${getRandomHex()}${alphaValue.toString(16)}`);
-        }
+            console.log(columnAtt);
 
-        else {
-        column.setAttribute('style', `background-color: #${getRandomHex()}19`);
+            if (columnAtt) {
+                const hexToDecimal = hex => parseInt(hex, 16);
+                let hexValue = columnAtt.slice(columnAtt.search('#')+1);  
+                 alphaValue = hexToDecimal(hexValue.slice(-2));
+
+                if (alphaValue < 235 && addAlpha != false) {
+                    alphaValue = alphaValue + 18;    
+                }
+
+            if (btnRainbow.className) {
+                column.setAttribute('style', `background-color: #${getRandomHex()}${alphaValue.toString(16)}`);
+            }
+            else {
+                column.setAttribute('style', `background-color: #000000${alphaValue.toString(16)}`);
+            }
+            }
+            
+            else {
+                if (btnRainbow.className) {
+                    column.setAttribute('style', `background-color: #${getRandomHex()}19`);
+                }
+                else {
+                    column.setAttribute('style', `background-color: #00000019`);
+                }
+            
+            }
+              
+    }
+
+    function columnAddListener(column) {
+        column.addEventListener('mousemove', () => {
+            if (isClicked === true) {
+                if (btnEraser.className) {
+                    column.removeAttribute('style');
+                }  
+                else {
+                    attributeSet(column);               
+                }
         }
-             
+    })
+        column.addEventListener('click', () => 
+        {
+        isClicked = true;
+        if (btnEraser.className) {
+            column.removeAttribute('style');
+        } 
+        else {
+            attributeSet(column);               
+        }          
+        isClicked = false;
+        })
     }
     
-    columns.forEach((column) => {
-        column.addEventListener('mousemove', () => {
-            if (isClicked === true) {
-            attributeSet(column);
-        }
-    })
-    })
-
-    columns.forEach((column) => {
-        column.addEventListener('click', () => {
-            isClicked = true;
-            attributeSet(column);
-            isClicked = false;
-        })
-    })
-}
-
-function erase() {
-    btnEraser.classList.toggle('active');
-    if (btnEraser.className) {
-    const columns = document.querySelectorAll('.column');
-
-    function setErase(column) {
-        column.setAttribute('style', `background-color: #F8F8FF`);
-    }
-
-    columns.forEach((column) => {
-        column.addEventListener('mousemove', () => {
-            if (isClicked === true) {
-            setErase(column);
-        }
-    })
-    })
-
-    columns.forEach((column) => {
-        column.addEventListener('click', () => {
-            isClicked = true;
-            setErase(column);
-            isClicked = false;
-        })
-    })
-}
-    else {
-        sketchRainbow();
-    }
+    columns.forEach((column) => columnAddListener(column))
+    
 }
 
 function clear() {
     const columns = document.querySelectorAll('.column');
     columns.forEach((column) => {
-        column.setAttribute('style', `background-color: ghostwhite`); 
+        column.removeAttribute('style');
     })
 }
