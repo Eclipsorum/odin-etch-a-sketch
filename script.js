@@ -20,11 +20,17 @@ const btnRainbow = document.createElement('button');
 btnRainbow.setAttribute('id', 'rainbow');
 btnRainbow.textContent = "Rainbow";
 
+const btnBold = document.createElement('button');
+btnBold.setAttribute('id', 'bold');
+btnBold.textContent = "Bold";
+
 body.insertBefore(btnContainer, container);
 btnContainer.appendChild(btnGrid);
 btnContainer.appendChild(btnClear);
 btnContainer.appendChild(btnEraser);
 btnContainer.appendChild(btnRainbow);
+btnContainer.appendChild(btnBold);
+
 
 let isClicked = false;
 window.addEventListener('mousedown', e => {
@@ -45,6 +51,10 @@ btnEraser.addEventListener('click', () => {
 });
 btnRainbow.addEventListener('click', () => {
     btnRainbow.classList.toggle('active');
+    sketch(false);
+});
+btnBold.addEventListener('click', () => {
+    btnBold.classList.toggle('active');
     sketch(false);
 });
 
@@ -75,6 +85,15 @@ function populateGrid(gridSize) {
         row.style.height = `${600/gridSize}px`;    
     })
     }  
+    if (btnEraser.className) {
+        btnEraser.classList.toggle('active');
+    }
+    if (btnBold.className) {
+        btnBold.classList.toggle('active');
+    }
+    if (btnRainbow.className) {
+        btnRainbow.classList.toggle('active');
+    }
     sketch();
 }
 
@@ -99,17 +118,30 @@ function sketch(addAlpha) {
             if (columnAtt) {
                 const hexToDecimal = hex => parseInt(hex, 16);
                 let hexValue = columnAtt.slice(columnAtt.search('#')+1);  
-                 alphaValue = hexToDecimal(hexValue.slice(-2));
+                let alphaValue = hexToDecimal(hexValue.slice(-2));
+                const alphaBold = 255;
 
-                if (alphaValue < 235 && addAlpha != false) {
-                    alphaValue = alphaValue + 18;    
+                if (alphaValue < 235 && addAlpha == undefined) {
+                    alphaValue = alphaValue + 18;  
+                     
                 }
 
             if (btnRainbow.className) {
+                if (btnBold.className) {
+                    column.setAttribute('style', `background-color: #${getRandomHex()}${alphaBold.toString(16)}`);
+                }
+                else {
                 column.setAttribute('style', `background-color: #${getRandomHex()}${alphaValue.toString(16)}`);
+                }
             }
             else {
-                column.setAttribute('style', `background-color: #000000${alphaValue.toString(16)}`);
+                if (btnBold.className) {
+                    column.setAttribute('style', `background-color: #000000${alphaBold.toString(16)}`);
+                }
+                else {
+                    column.setAttribute('style', `background-color: #000000${alphaValue.toString(16)}`);
+                }
+
             }
             }
             
@@ -150,7 +182,6 @@ function sketch(addAlpha) {
     }
     
     columns.forEach((column) => columnAddListener(column))
-    
 }
 
 function clear() {

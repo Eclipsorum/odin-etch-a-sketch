@@ -1,6 +1,12 @@
 body{
-    padding-top: 50px;
+    padding-top: 20px;
 }
+
+h1 {
+    text-align: center;
+    text-shadow: 2px 2px gold;
+}
+
 .container {
     height: 600px;
     border: solid whitesmoke 5px;
